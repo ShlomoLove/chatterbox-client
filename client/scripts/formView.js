@@ -10,15 +10,16 @@ var FormView = {
   handleSubmit: function(event) {
     // Stop the browser from submitting the form
     event.preventDefault();
+
+    let newMessage = $('#message').val();
     
-    console.log('click!');
     let message = {
       username: App.username, 
-      text: FormView.$message.val(),
-      roomname: 'lobby',
+      text: newMessage,
+      roomname: RoomsView.currentRoomName,
     }
-    FormView.$message.val('')
-    Parse.create(message, App.fetch)
+
+    Parse.create(message, App.fetch())
   },
 
   setStatus: function(active) {

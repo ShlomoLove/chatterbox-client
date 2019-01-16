@@ -4,8 +4,9 @@ var App = {  //Application -- *gets invoked end of index.html after script loads
   lastId: '',
   username: 'anonymous',
 
-  currentRoom: 'lobby',
+  currentRoom: '',
   lastMsg: '',
+  currentData: '',
 
   initialize: function() {  //Initializes App components
     App.username = window.location.search.substr(10);
@@ -18,24 +19,6 @@ var App = {  //Application -- *gets invoked end of index.html after script loads
     App.startSpinner();
     App.fetch(App.stopSpinner);
     
-    $('#rooms button').on('click', function(){
-      let room = {
-        username: App.username,
-        text: `new room called ${$('#message').val()} created`,
-        roomname: $('#message').val()
-      };
-      RoomsView.renderRoom(room);
-    });
-
-    $('#rooms button').click(function() {
-      RoomsView.addRoom(); 
-    })
-    RoomsView.$select.on('change', function () {
-      $('#chats').empty();
-      MessagesView.initialize(Messages, RoomsView.$select.val());
-    })
-    
-    
     setInterval(App.fetch, 5000);  //*updates every 5 seconds
 
   },
@@ -44,16 +27,25 @@ var App = {  //Application -- *gets invoked end of index.html after script loads
     Parse.readAll(({results}) => {   //{results} same as allTheData.results
       // examine the response from the server request:
       let messages = [];
+      App.currentData = results;
+      App.currentRoom = _.filter(results, function(message) {
+        return message.roomname === RoomsView.currentRoomName
+      });
       for (let i = 0; i < 10; i++) {
-        let currentMsg = results[i];
-        if (App.lastId === currentMsg.objectId) {
+        let currentMsg = App.currentRoom[i];
+        if (App.currentRoom.length === 0) {
+          alert ("No Chats");
+          break;
+        } else if (!currentMsg) {
+          break;
+        } else if (App.lastId === currentMsg.objectId) {
           i = 10;
         } else {
           messages.push(currentMsg);   
         } 
       }
       for (let x = messages.length - 1; x >= 0; x--) {
-        let message = results[x];
+        let message = message[x];
         App.lastId = message.objectId;
         MessagesView.renderMessage(message);
       }
