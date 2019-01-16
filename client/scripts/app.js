@@ -27,6 +27,7 @@ var App = {  //Application -- *gets invoked end of index.html after script loads
     Parse.readAll(({results}) => {   //{results} same as allTheData.results
       // examine the response from the server request:
       let messages = [];
+      console.log(results)
       App.currentData = results;
       App.currentRoom = _.filter(results, function(message) {
         return message.roomname === RoomsView.currentRoomName
@@ -45,7 +46,7 @@ var App = {  //Application -- *gets invoked end of index.html after script loads
         } 
       }
       for (let x = messages.length - 1; x >= 0; x--) {
-        let message = message[x];
+        let message = messages[x];
         App.lastId = message.objectId;
         MessagesView.renderMessage(message);
       }

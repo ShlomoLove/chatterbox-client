@@ -9,7 +9,7 @@ var RoomsView = {  //
   $button: $('#rooms button'),
   $select: $('#rooms select'),
 
-  intialize: function () {
+  initialize: function () {
     RoomsView.renderRoom(RoomsView.currentRoomName);
 
     RoomsView.$addRoom.on('click', function (event) {
