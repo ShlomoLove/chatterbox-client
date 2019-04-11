@@ -1,5 +1,4 @@
 var MessageView = {
-
 //   render: _.template(`
 //       <div class="chat">
 //         <div class="username" title="Click to add friend"><%-username%></div>
