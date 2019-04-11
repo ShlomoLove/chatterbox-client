@@ -1,7 +1,7 @@
 //MVC Model
 var Rooms = {
-  add: function(roomName) {
-
+  add: function($room) {
+    var dropDown =  RoomsView.$select;
+    $(dropDown).append($room)
   }
-
 };
